@@ -1,0 +1,1 @@
+This a repository comtaining all the code for the duration of the algonquin college computer programming course.
