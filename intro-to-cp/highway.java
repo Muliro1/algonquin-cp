@@ -30,10 +30,10 @@ public class LabProgram {
           }
           //System.out.println(subIntResult);
           if (subIntResult % 2 == 0){
-            System.out.println("I-" + highwayNumber + " is auxiliary, serving " + "I-" + subStringResult + ", going east/west.");
+            System.out.println("I-" + highwayNumber + " is auxiliary, serving " + "I-" + subIntResult + ", going east/west.");
           }
           else {
-            System.out.println("I-" + highwayNumber + " is auxiliary, serving " + "I-" + subStringResult + ", going north/south.");
+            System.out.println("I-" + highwayNumber + " is auxiliary, serving " + "I-" + subIntResult + ", going north/south.");
           }
       }
       
