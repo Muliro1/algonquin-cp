@@ -1,0 +1,1 @@
+A folder within the algonquin computer programming repository that contains code snippets from work in intro to comnputer programming level one.
