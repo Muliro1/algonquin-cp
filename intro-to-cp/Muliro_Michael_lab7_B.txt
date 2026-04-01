@@ -1,0 +1,84 @@
+--Michael Muliro
+--041270793
+
+-- 1. Create Customers table
+CREATE TABLE Customers (
+    customer_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    phone VARCHAR(20),
+    postal_code VARCHAR(20)
+);
+
+-- 2. Create Orders table (initially without customer_id)
+
+CREATE TABLE IF NOT EXISTS Orders (
+    order_id SERIAL PRIMARY KEY,
+    order_date DATE NOT NULL,
+    total_amount NUMERIC(10,2)
+);
+
+-- 3. Add Customer_ID as a foreign key in Orders table
+ALTER TABLE Orders
+ADD COLUMN customer_id INTEGER,
+ADD CONSTRAINT fk_orders_customers
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id);
+
+-- 4. Create Product_Type table
+CREATE TABLE Product_Type (
+    product_type_id SERIAL PRIMARY KEY,
+    type_name VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- 5. Create Products table with a foreign key to Product_Type
+CREATE TABLE IF NOT EXISTS Products (
+    product_id SERIAL PRIMARY KEY,
+    product_name VARCHAR(100) NOT NULL,
+    product_type_id INTEGER NOT NULL,
+    unit_price NUMERIC(10,2),
+    CONSTRAINT fk_products_product_type
+        FOREIGN KEY (product_type_id) REFERENCES Product_Type(product_type_id)
+);
+
+-- 6. Insert 5 records into Customers (one record for yourself)
+INSERT INTO Customers (first_name, last_name, phone, postal_code) VALUES
+('John', 'Doe', '555-1234', '12345'),        -- example record
+('Jane', 'Smith', '555-5678', '67890'),
+('Bob', 'Johnson', '555-9012', '11223'),
+('Alice', 'Williams', '555-3456', '44556'),
+('Your', 'Name', '555-9999', '99999');        -- replace with your actual name
+
+-- 7. Insert product types
+INSERT INTO Product_Type (type_name) VALUES
+('Software'),
+('Hardware'),
+('Service');
+
+-- 8. Insert 6 records into Products (including the required ones)
+INSERT INTO Products (product_name, product_type_id, unit_price) VALUES
+('Windows',      (SELECT product_type_id FROM Product_Type WHERE type_name = 'Software'), 199.99),
+('Visual Studio',(SELECT product_type_id FROM Product_Type WHERE type_name = 'Software'), 45.00),
+('Mouse',        (SELECT product_type_id FROM Product_Type WHERE type_name = 'Hardware'), 25.50),
+('Keyboard',     (SELECT product_type_id FROM Product_Type WHERE type_name = 'Hardware'), 65.00),
+('Consulting',   (SELECT product_type_id FROM Product_Type WHERE type_name = 'Service'), 150.00),
+('Maintenance',  (SELECT product_type_id FROM Product_Type WHERE type_name = 'Service'), 80.00);
+
+-- 9. Update two customers
+-- Update phone number for customer with first_name 'John' and last_name 'Doe'
+UPDATE Customers
+SET phone = '555-4321'
+WHERE first_name = 'John' AND last_name = 'Doe';
+
+-- Update postal_code for customer with first_name 'Jane' and last_name 'Smith'
+UPDATE Customers
+SET postal_code = '98765'
+WHERE first_name = 'Jane' AND last_name = 'Smith';
+
+-- 10. Delete product type 'Software' and handle dependencies
+-- First, delete all products that reference the 'Software' product type
+DELETE FROM Products
+WHERE product_type_id = (SELECT product_type_id FROM Product_Type WHERE type_name = 'Software');
+
+-- Now delete the product type itself
+DELETE FROM Product_Type
+WHERE type_name = 'Software';
