@@ -1,0 +1,22 @@
+{
+  "name": "practice",
+  "version": "1.0.0",
+  "description": "Express.js practice",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Muliro1/algonquin-cp.git"
+  },
+  "author": "Muliro1",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Muliro1/algonquin-cp/issues"
+  },
+  "homepage": "https://github.com/Muliro1/algonquin-cp#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
